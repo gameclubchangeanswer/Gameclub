@@ -1,0 +1,222 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=0.25">
+    <meta name="author" content="GBPlay Inc. (Formerly GameClub)">
+    <meta name="description" content="GBPlay Inc.(Formerly GameClub)|Number 1 online game distributor in the philippines">
+    <meta name="keywords" content="Crossfire online games, Crossfire online gaming philippines, gameclub, gbplay inc, weapons of war, wow">
+    <meta name="robots" content="all">
+    <title>Gameclub</title>
+    <link href="//static.gameclub.ph/GameClub/images/favicon.ico" rel="shortcut icon">
+    <link href="//static.gameclub.ph/GameClub/plugins/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//static.gameclub.ph/GameClub/plugins/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+        <link href="//static.gameclub.ph/GameClub/plugins/dropit/dropit2.css" rel="stylesheet">
+    <link href="//static.gameclub.ph/GameClub/plugins/slick/slick.css" rel="stylesheet">
+    <link href="//static.gameclub.ph/GameClub/plugins/slick/slick-theme.css" rel="stylesheet">
+    <link href="//static.gameclub.ph/GameClub/css/style.css?ver=20200226" rel="stylesheet">
+
+
+    
+    <link type="text/css" rel="stylesheet" href="//static.gameclub.ph/GameClub/css/register.css">	
+
+    <script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-L49TJY9K4W&amp;l=dataLayer&amp;cx=c"></script><script src="//static.gameclub.ph/GameClub/plugins/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="//static.gameclub.ph/GameClub/plugins/jquery-validation-1.15.0/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="//static.gameclub.ph/GameClub/plugins/slick/slick.min.js" type="text/javascript"></script>
+    <script src="//static.gameclub.ph/GameClub/plugins/bootstrap-3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//static.gameclub.ph/GameClub/plugins/imageHover.js" type="text/javascript"></script>
+    <script src="//static.gameclub.ph/GameClub/plugins/dropit/dropit.js" type="text/javascript"></script>
+    <script src="//static.gameclub.ph/GameClub/js/ui.js" type="text/javascript"></script>
+    <script src="//static.gameclub.ph/GameClub/js/gameclub.js?ver=20200226" type="text/javascript"></script>
+    
+
+    <!-- Google tag (gtag.js) -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id" =g-l49tjy9k4w=""></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-L49TJY9K4W');</script>
+
+
+    
+<script type="text/javascript">
+    function enterSubmit() {
+        if (event.which == 13) {
+            event.preventDefault();
+            $('#btn-submit').click();
+        }
+    }
+
+    $.validator.addMethod("checkUserName", function (value, element) {
+        var isSuccess = false;
+        $.ajax({
+            url: "/Join/UserIdCheck",
+            type: "POST",
+            async: false,
+            data: { user_id: value },
+            success: function (data) {
+                isSuccess = data.code == 1 ? true : false;
+            }
+        });
+
+        return isSuccess;
+    });
+
+    
+
+	$(function () {
+	    $(".menu").dropit();
+
+	    $('#btn-cancel').click(function () {
+	        document.location.href = GetUrlBySiteCode();
+	    });
+
+		$('#btn-submit').click(function () {
+		    if ($('form').valid()) {
+		        $.ajax({
+		            url: "/FindPassword/FindPasswordValid",
+		            type: "POST",
+		            async: false,
+		            data: { uname: $('#uname').val() },
+		            success: function (e) {
+		                if (e.code == 0) {
+		                    document.location.href = "/FindPassword/FindPassword2" + "?sitecode=CF"
+		                }
+		            }
+		        });
+		    }
+		});
+
+		$.validator.addMethod("regx", function (value, element, regexpr) {
+		    return regexpr.test(value);
+		});
+
+		$('form').validate({
+			rules: {
+			    uname: {
+			        required: true,
+			        minlength: 6,
+			        maxlength: 15,
+			        regx: /^[a-z0-9]*$/,
+			        checkUserName: true
+			    },
+            	
+			},
+			messages: {
+			    uname: {
+			        required: 'Username is required.',
+			        minlength: 'Username must be at least 6 to 15 characters in length.',
+			        maxlength: 'Username must be at least 6 to 15 characters in length.',
+			        regx: 'The following are allowed in Username : a-z, 0-9, No space &amp; special characters.',
+			        checkUserName: 'The Username is incorrect. Please try again.'
+			    }
+
+			},			
+			highlight: function (element) {
+				var id_attr = "#" + $(element).attr("id") + "1";
+				$(element).closest('.form-group').addClass('has-error');
+				$(id_attr).addClass('fa-exclamation-circle');				
+			},
+			unhighlight: function (element) {
+				var id_attr = "#" + $(element).attr("id") + "1";
+				$(element).closest('.form-group').removeClass('has-error');
+				$(id_attr).removeClass('fa-exclamation-circle');				
+			},
+			errorElement: 'span',
+			errorClass: 'help-block',
+			errorPlacement: function (error, element) {
+				if (element.attr("name") == "dob_month" || element.attr("name") == "dob_day") {
+					error.appendTo(element.parent("div").next("div"));
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
+</script>
+
+<meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"></head>
+<body>
+    
+    <script type="text/javascript" src="//static.gameclub.ph/Global/js/GameClubGnB.js?ver=20210525"></script><link href="https://static.gameclub.ph/Global/css/gnb.css?ver=20200514" rel="stylesheet"><div class="gameclub-bar"><div class="inner"><a href="http://www.gameclub.ph" class="logo-gameclub">GAMECLUB</a><div class="gameclub-gnb"><ul>	<li class="m1">		<a href="#" class="depth01">GAMES</a>		<ul class="depth02" id="list_box">		<li> <a href="http://cf.gameclub.ph" target="_self">CROSSFIRE</a></li></ul>	</li>	<li class="m2"><a href="javascript:void(0)" onclick="gnbSupport()" class="depth01">SUPPORT</a></li>	<li class="m3"><a href="javascript:void(0)" onclick="gnbOpenBill()" class="depth01">Top-Up</a></li></ul><div class="gameclub-util"><a class="btn-register" href="javascript:void(0)" onclick="gnbOpenJoin()">REGISTER</a><a class="btn-login" href="javascript:void(0)" onclick="gnbLogin()" style="margin-left: 40px;">LOGIN</a>
+		</div>	</div></div></div>    
+    
+    
+
+<div class="container">
+    <div class="row" style="margin: 0 auto; padding: 60px 0 60px 0;">
+        <!-- process -->
+        <div class="reset-process">
+            <ol>
+                <li class="active">STEP 01 <small>Enter<br>Username</small></li>
+                <li class="">STEP 02 <small>Select verification<br>option</small></li>
+                <li class="">STEP 03 <small>Verify &amp;<br>completed</small></li>
+                <li class="">STEP 04 <small>Set new<br>password</small></li>
+            </ol>
+        </div>
+        <!-- form -->
+        <div class="gcform" style="width:740px;">
+            <div class="head">
+                <span>RESET PASSWORD</span>
+            </div>
+
+            <div class="body">
+                <p class="title">Have you forgotten your password?<br>Please enter your Username of your account to reset your password.</p>
+                <div class="forms">
+                    <form class="form-horizontal" novalidate="novalidate">
+
+                        <div class="form-group">
+                            <div class="col-xs-2"></div>
+                            <label for="username" class="col-xs-2"><li class="form-field">Username</li></label>
+                            <div class="col-xs-6">
+                                <input type="text" name="uname" id="uname" class="form-control" placeholder="Enter Username" data-msg-required="Please enter your Username." onkeypress="enterSubmit();" required="" aria-required="true">
+                                <i class="fa form-control-feedback" id="uname1" aria-hidden="true"></i>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- button area -->
+            <div class="button-area">
+                <button type="button" id="btn-submit" class="btn-special" style="float:left;">Next Step</button>
+                <button type="button" class="btn-gray" style="float:right;" id="btn-cancel">Cancel</button>
+            </div>
+        </div>
+        <!-- //form -->
+    </div>
+</div>
+    
+    
+
+    <footer class="footer">
+        <div class="row">
+            <div class="container">
+                <div style="float: left;">
+                    <img src="//static.gameclub.ph/GameClub/images/gc-logo2.png">
+                </div>
+                <div style="float: left;">
+                    <div>
+                        <a href="javascript:void(0)" onclick="about()">About Us</a>
+                        &nbsp; &nbsp;| &nbsp; &nbsp;
+			<!--<a href="javascript:void(0)" onclick="advertise()">Advertise With Us</a>-->
+			<a href="" class="slideTo" data-slide="slide2">Advertise With Us</a>
+			&nbsp; &nbsp;| &nbsp; &nbsp;
+                        <a href="javascript:void(0)" onclick="privacy()">Privacy Policy</a>
+                        &nbsp; &nbsp;| &nbsp; &nbsp;
+                        <a href="javascript:void(0)" onclick="terms()">Terms of Service</a>
+                        &nbsp; &nbsp;| &nbsp; &nbsp;
+                        <a href="javascript:void(0)" onclick="eula()">EULA</a>
+                        &nbsp; &nbsp;| &nbsp; &nbsp;
+                        <a href="javascript:void(0)" onclick="player()">Player Policies</a>
+                    </div>
+                    <div style="color: #666666;font-size: 12px;">
+                        © 2023 Smilegate. All rights reserved.<br> Trademarks referenced herein belong to their respective owners.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+
+</body></html>
